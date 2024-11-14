@@ -33,7 +33,6 @@ def helper_compare_json(json_obj1, json_obj2):
 # -------------------- TESTCASE --------------------
 
 # -------------------- TC1 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -43,7 +42,6 @@ def test_tc1(url, accessToken):
   print(response.json()['message'])
 
 # -------------------- TC2 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -55,14 +53,13 @@ def test_tc2(url, accessToken):
           'name': 'New Categories'
       },
       files={
-          'categoryUrl': ('tester_img.jpg', open('/content/tester_img.jpg', 'rb'), 'image/jpeg')
+          'categoryUrl': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
   assert response.status_code == 201
   helper_cleanup(response.json()['category']['_id'], url, accessToken)
 
 # -------------------- TC3 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -78,7 +75,6 @@ def test_tc3(url, accessToken):
   assert response.status_code == 400
 
 # -------------------- TC4 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -90,13 +86,12 @@ def test_tc4(url, accessToken):
           'name': 'New Categories'
       },
       files={
-          'categoryUrl': ('New Text Document.txt', open('/content/New Text Document.txt', 'rb'), 'txt')
+          'categoryUrl': ('New Text Document.txt', open('imgs/New Text Document.txt', 'rb'), 'txt')
       }
     )
   assert response.status_code == 400
 
 # -------------------- TC5 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -107,7 +102,6 @@ def test_tc5(url, accessToken):
   helper_cleanup(category['_id'], url, accessToken)
 
 # -------------------- TC6 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -117,7 +111,6 @@ def test_tc6(url, accessToken):
   assert response.status_code == 400
 
 # -------------------- TC7 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -135,7 +128,6 @@ def test_tc7(url, accessToken):
   helper_cleanup(id, url, accessToken)
 
 # -------------------- TC8 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -148,7 +140,6 @@ def test_tc8(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC9 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -161,7 +152,6 @@ def test_tc9(url, accessToken):
   assert response.status_code == 400
 
 # -------------------- TC10 --------------------
-@pytest.mark.skip('DONE')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -174,14 +164,13 @@ def test_tc10(url, accessToken):
           'name': 'Updated Categories'
       },
       files={
-          'categoryImg': ('New Text Document.txt', open('/content/New Text Document.txt', 'rb'), 'txt')
+          'categoryImg': ('New Text Document.txt', open('imgs/New Text Document.txt', 'rb'), 'txt')
       }
     )
   assert response.status_code == 400
   helper_cleanup(id, url, accessToken)
 
 # -------------------- TC11 --------------------
-@pytest.mark.skip('CURRENTLY FIXING')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -195,11 +184,10 @@ def test_tc11(url, accessToken):
           'categoryUrl': ''
       }
     )
-  assert response.status_code == 400
+  assert response.status_code == 400, response.json()['message']
   helper_cleanup(id, url, accessToken)
 
 # -------------------- TC12 --------------------
-@pytest.mark.skip('CURRENTLY FIXING')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -208,17 +196,15 @@ def test_tc12(url, accessToken):
       f"{url}/api/categories",
       headers={'Authorization': f'Bearer {accessToken}'},
       data={
-          'name': '/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]*$/'
+          'name': '/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\];:"|,.<>\/?]*$/'
       },
       files={
-          'categoryUrl': ('tester_img.jpg', open('/content/tester_img.jpg', 'rb'), 'image/jpeg')
+          'categoryUrl': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
-  assert response.status_code == 400
-  helper_cleanup(response.json()['category']['_id'], url, accessToken)
+  assert response.status_code == 400, response.json()['message']
 
 # -------------------- TC13 --------------------
-@pytest.mark.skip('CURRENTLY FIXING')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -231,9 +217,8 @@ def test_tc13(url, accessToken):
           'name': category['name']
       },
       files={
-          'categoryUrl': ('tester_img.jpg', open('/content/tester_img.jpg', 'rb'), 'image/jpeg')
+          'categoryUrl': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
   assert response.status_code == 400
-  helper_cleanup(response.json()['category']['_id'], url, accessToken)
   helper_cleanup(category['_id'], url, accessToken)
