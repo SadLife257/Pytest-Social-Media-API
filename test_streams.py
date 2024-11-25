@@ -34,7 +34,7 @@ def helper_getStream(id, url, accessToken):
   )
   return response.json()['stream']
 
-def helper_id_generator(size=24, chars=string.ascii_uppercase + string.digits):
+def helper_id_generator(size=24, chars=string.ascii_lowercase + string.digits):
   return ''.join(random.choice(chars) for _ in range(size))
 
 def helper_compare_json(json_obj1, json_obj2):
@@ -43,7 +43,6 @@ def helper_compare_json(json_obj1, json_obj2):
 # -------------------- TESTCASE --------------------
 
 # -------------------- TC1 --------------------
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -63,7 +62,7 @@ def test_tc1(url, accessToken):
   helper_cleanup(response.json()['stream']['_id'], url, accessToken)
 
 # -------------------- TC2 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -81,7 +80,7 @@ def test_tc2(url, accessToken):
   helper_cleanup(response.json()['stream']['_id'], url, accessToken)
 
 # -------------------- TC3 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -100,7 +99,7 @@ def test_tc3(url, accessToken):
   assert response.status_code == 400
 
 # -------------------- TC4 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -112,7 +111,7 @@ def test_tc4(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC5 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -124,24 +123,24 @@ def test_tc5(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC6 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
 def test_tc6(url, accessToken):
-  response = session.post(
+  response = session.get(
       f"{url}/api/streams/relevant",
       headers={'Authorization': f'Bearer {accessToken}'},
-      json={
-          'categoryIds': [
+      params={
+        'categoryIds': [
               '671a01672a386fca99c73c07'
-          ]
+        ]
       }
     )
   assert response.status_code == 200
 
 # -------------------- TC7 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -154,7 +153,7 @@ def test_tc7(url, accessToken):
   assert response.status_code == 400, response.json()['message']
 
 # -------------------- TC9 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -174,7 +173,7 @@ def test_tc9(url, accessToken):
   assert response.status_code == 400, response.json()['message']
 
 # -------------------- TC10 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -187,7 +186,7 @@ def test_tc10(url, accessToken):
   assert response.status_code == 400, response.json()['message']
 
 # -------------------- TC11 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -200,7 +199,7 @@ def test_tc11(url, accessToken):
   assert response.status_code == 500, response.json()['message']
 
 # -------------------- TC12 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -213,7 +212,7 @@ def test_tc12(url, accessToken):
   assert response.status_code == 500, response.json()['message']
 
 # -------------------- TC13 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -233,7 +232,7 @@ def test_tc13(url, accessToken):
   helper_cleanup(response.json()['stream']['_id'], url, accessToken)
 
 # -------------------- TC14 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -251,7 +250,7 @@ def test_tc14(url, accessToken):
   helper_cleanup(response.json()['stream']['_id'], url, accessToken)
 
 # -------------------- TC15 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -270,7 +269,7 @@ def test_tc15(url, accessToken):
   assert response.status_code == 400
 
 # -------------------- TC16 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -282,7 +281,7 @@ def test_tc16(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC17 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -294,24 +293,24 @@ def test_tc17(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC18 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
 def test_tc18(url, accessToken):
-  response = session.post(
+  response = session.get(
       f"{url}/api/streams/relevant",
       headers={'Authorization': f'Bearer {accessToken}'},
-      json={
-          'categoryIds': [
+      params={
+        'categoryIds': [
               '671a01672a386fca99c73c07'
-          ]
+        ]
       }
     )
   assert response.status_code == 200
 
 # -------------------- TC19 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -325,7 +324,7 @@ def test_tc19(url, accessToken):
   helper_cleanup(id, url, accessToken)
 
 # -------------------- TC21 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -346,7 +345,7 @@ def test_tc21(url, accessToken):
   helper_cleanup(id, url, accessToken)
 
 # -------------------- TC22 --------------------
-@pytest.mark.skip
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
@@ -359,11 +358,23 @@ def test_tc22(url, accessToken):
   assert response.status_code == 200
 
 # -------------------- TC23 --------------------
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
 def test_tc23(url, accessToken):
+  id = helper_id_generator()
+  response = session.delete(
+    f"{url}/api/streams/{id}",
+    headers={'Authorization': f'Bearer {accessToken}'}
+  )
+  assert response.status_code == 400
+
+# -------------------- TC24 --------------------
+
+@pytest.mark.parametrize(
+    'accessToken', [('bao')], indirect=True
+)
+def test_tc24(url, accessToken):
   id = helper_createStream(url, accessToken)['_id']
   old_stream = helper_getStream(id, url, accessToken)
   response = session.post(
@@ -376,12 +387,12 @@ def test_tc23(url, accessToken):
 
   helper_cleanup(id, url, accessToken)
 
-# -------------------- TC24 --------------------
-@pytest.mark.skip
+# -------------------- TC25 --------------------
+
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
-def test_tc24(url, accessToken):
+def test_tc25(url, accessToken):
   id = helper_createStream(url, accessToken)['_id']
   old_stream = helper_getStream(id, url, accessToken)
   session.post(
@@ -398,11 +409,11 @@ def test_tc24(url, accessToken):
 
   helper_cleanup(id, url, accessToken)
 
-# -------------------- TC25 --------------------
+# -------------------- TC26 --------------------
 @pytest.mark.parametrize(
     'accessToken', [('bao')], indirect=True
 )
-def test_tc25(url, accessToken):
+def test_tc26(url, accessToken):
   id = helper_createStream(url, accessToken)['_id']
   response = session.patch(
       f"{url}/api/streams/{id}",
@@ -416,6 +427,47 @@ def test_tc25(url, accessToken):
       },
       files = {
         'streamThumbnail': ('New Text Document.txt', open('imgs/New Text Document.txt', 'rb'), 'txt')
+      }
+    )
+  assert response.status_code == 400, response.json()['messages']
+  helper_cleanup(id, url, accessToken)
+
+# -------------------- TC27 --------------------
+@pytest.mark.parametrize(
+    'accessToken', [('bao')], indirect=True
+)
+def test_tc27(url, accessToken):
+  categoryIds = helper_id_generator()
+  response = session.post(
+      f"{url}/api/streams",
+      headers={'Authorization': f'Bearer {accessToken}'},
+      json={
+          'title': 'New Stream',
+          'description': 'Pytest Stream',
+          'categoryIds': [
+              categoryIds
+          ]
+      }
+    )
+  assert response.status_code == 400, response.json()['messages']
+  helper_cleanup(id, url, accessToken)
+
+# -------------------- TC28 --------------------
+@pytest.mark.parametrize(
+    'accessToken', [('bao')], indirect=True
+)
+def test_tc28(url, accessToken):
+  id = helper_createStream(url, accessToken)['_id']
+  categoryIds = helper_id_generator()
+  response = session.patch(
+      f"{url}/api/streams/{id}",
+      headers={'Authorization': f'Bearer {accessToken}'},
+      json={
+          'title': 'Updated Stream',
+          'description': 'Pytest Stream',
+          'categoryIds': [
+              categoryIds
+          ]
       }
     )
   assert response.status_code == 400, response.json()['messages']
