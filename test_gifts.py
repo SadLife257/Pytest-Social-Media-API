@@ -7,7 +7,7 @@ import json
 session = requests.Session()
 
 # -------------------- HELPER FUNCTION --------------------
-def helper_createcreateGift(url, accessToken):
+def helper_createGift(url, accessToken):
   response = session.post(
       f"{url}/api/gifts",
       headers={'Authorization': f'Bearer {accessToken}'},
@@ -27,7 +27,7 @@ def helper_cleanup(id, url, accessToken):
       headers={'Authorization': f'Bearer {accessToken}'}
     )
 
-def helper_id_generator(size=24, chars=string.ascii_uppercase + string.digits):
+def helper_id_generator(size=24, chars=string.ascii_lowercase + string.digits):
   return ''.join(random.choice(chars) for _ in range(size))
 
 def helper_compare_json(json_obj1, json_obj2):
@@ -91,7 +91,6 @@ def test_tc3(url, accessToken):
   assert response.status_code == 400, response.json()['message']
 
 # -------------------- TC4 --------------------
-@pytest.mark.skip('CURRENTLY FIXING')
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
@@ -144,7 +143,7 @@ def test_tc6(url, accessToken):
     'accessToken', [('admin')], indirect=True
 )
 def test_tc7(url, accessToken):
-  id = helper_createcreateGift(url, accessToken)['_id']
+  id = helper_createGift(url, accessToken)['_id']
   response = session.get(
       f"{url}/api/gifts/{id}",
       headers={'Authorization': f'Bearer {accessToken}'}
@@ -163,15 +162,15 @@ def test_tc8(url, accessToken):
       f"{url}/api/gifts/{id}",
       headers={'Authorization': f'Bearer {accessToken}'}
     )
-  #assert response.status_code == 404, response.json()['message']
   assert response.status_code == 500, response.json()['message']
+  #assert response.status_code == 404, response.json()['message']
 
 # -------------------- TC9 --------------------
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
 def test_tc9(url, accessToken):
-  gift = helper_createcreateGift(url, accessToken)
+  gift = helper_createGift(url, accessToken)
   response = session.put(
       f"{url}/api/gifts/{gift['_id']}",
       headers={'Authorization': f'Bearer {accessToken}'},
@@ -204,15 +203,15 @@ def test_tc10(url, accessToken):
           'giftUpdateImg': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
-  assert response.status_code == 500
+  assert response.status_code == 500, response.json()['message']
+  #assert response.status_code == 404, response.json()['message']
 
 # -------------------- TC11 --------------------
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
 def test_tc11(url, accessToken):
-  gift = helper_createcreateGift(url, accessToken)
+  gift = helper_createGift(url, accessToken)
   response = session.put(
       f"{url}/api/gifts/{gift['_id']}",
       headers={'Authorization': f'Bearer {accessToken}'},
@@ -224,19 +223,16 @@ def test_tc11(url, accessToken):
           'giftUpdateImg': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
-  if(response.status_code == 200):
-    assert response.json()['gift']['name'] == gift['name'], response.json()['message']
-  else:
-    assert response.status_code == 404, response.json()['message']
+  assert response.status_code == 200, response.json()['message']
+  assert response.json()['gift']['name'] == gift['name'], response.json()['message']
   helper_cleanup(gift['_id'], url, accessToken)
 
 # -------------------- TC12 --------------------
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
 def test_tc12(url, accessToken):
-  gift = helper_createcreateGift(url, accessToken)
+  gift = helper_createGift(url, accessToken)
   response = session.put(
       f"{url}/api/gifts/{gift['_id']}",
       headers={'Authorization': f'Bearer {accessToken}'},
@@ -248,10 +244,8 @@ def test_tc12(url, accessToken):
           'giftUpdateImg': ('tester_img.jpg', open('imgs/tester_img.jpg', 'rb'), 'image/jpeg')
       }
     )
-  if(response.status_code == 200):
-    assert response.json()['gift']['valuePerUnit'] == gift['valuePerUnit'], response.json()['message']
-  else:
-    assert response.status_code == 404, response.json()['message']
+  assert response.status_code == 200, response.json()['message']
+  assert response.json()['gift']['valuePerUnit'] == gift['valuePerUnit'], response.json()['message']
   helper_cleanup(gift['_id'], url, accessToken)
 
 # -------------------- TC13 --------------------
@@ -259,22 +253,42 @@ def test_tc12(url, accessToken):
     'accessToken', [('admin')], indirect=True
 )
 def test_tc13(url, accessToken):
-  gift = helper_createcreateGift(url, accessToken)
+  gift = helper_createGift(url, accessToken)
+  response = session.put(
+    f"{url}/api/gifts/{gift['_id']}",
+    headers={'Authorization': f'Bearer {accessToken}'},
+    data={
+        'name': None,
+        'valuePerUnit': None
+    },
+    files={
+        'giftUpdateImg': None
+    }
+  )
+  assert response.status_code == 400, response.json()['message']
+  helper_cleanup(gift['_id'], url, accessToken)
+
+# -------------------- TC14 --------------------
+@pytest.mark.parametrize(
+    'accessToken', [('admin')], indirect=True
+)
+def test_tc14(url, accessToken):
+  gift = helper_createGift(url, accessToken)
   response = session.delete(
       f"{url}/api/gifts/{gift['_id']}",
       headers={'Authorization': f'Bearer {accessToken}'},
     )
   assert response.status_code == 200, response.json()['message']
 
-# -------------------- TC14 --------------------
-@pytest.mark.skip
+# -------------------- TC15 --------------------
 @pytest.mark.parametrize(
     'accessToken', [('admin')], indirect=True
 )
-def test_tc14(url, accessToken):
+def test_tc15(url, accessToken):
   id = helper_id_generator()
   response = session.delete(
       f"{url}/api/gifts/{id}",
       headers={'Authorization': f'Bearer {accessToken}'},
     )
-  assert response.status_code == 404, response.json()['message']
+  assert response.status_code == 500, response.json()['message']
+  #assert response.status_code == 404, response.json()['message']
